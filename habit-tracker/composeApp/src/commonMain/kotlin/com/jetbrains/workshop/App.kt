@@ -8,7 +8,7 @@ import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.Delete
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.paint
@@ -60,9 +60,6 @@ fun App() {
                     MyElement(
                         label = it,
                         count = 10,
-                        onUpdateLabel = {},
-                        onClickMinus = {},
-                        onClickPlus = {},
                     )
                 }
             }
@@ -74,10 +71,9 @@ fun App() {
 fun MyElement(
     label: String,
     count: Int,
-    onUpdateLabel: (String) -> Unit,
-    onClickMinus: () -> Unit,
-    onClickPlus: () -> Unit,
 ) {
+    var editableLabel by remember(label) { mutableStateOf(label) }
+    var counter by remember(count) { mutableStateOf(count) }
     Row(
         modifier = Modifier
             .border(
@@ -91,15 +87,20 @@ fun MyElement(
             10.dp,
         )
     ) {
-        TextField(label, onUpdateLabel)
-        IconButton(onClick = onClickMinus) {
+        TextField(
+            editableLabel,
+            onValueChange = {
+                editableLabel = it
+            },
+        )
+        IconButton(onClick = { counter-- }) {
             Icon(
                 Icons.Default.Delete,
                 null,
             )
         }
-        Text(count.toString())
-        IconButton(onClick = onClickPlus) {
+        Text(counter.toString())
+        IconButton(onClick = { counter++ }) {
             Icon(
                 Icons.Default.Add,
                 null,
@@ -114,9 +115,6 @@ fun MyElementPreview() {
     MyElement(
         "Hello",
         count = 10,
-        onUpdateLabel = {},
-        onClickMinus = {},
-        onClickPlus = {},
     )
 }
 
