@@ -11,8 +11,15 @@ import androidx.compose.material.icons.filled.Delete
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.paint
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.dp
+import kotlinproject.composeapp.generated.resources.Res
+import kotlinproject.composeapp.generated.resources.app_name
+import kotlinproject.composeapp.generated.resources.bliss
+import org.jetbrains.compose.resources.painterResource
+import org.jetbrains.compose.resources.stringResource
 import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
@@ -33,7 +40,12 @@ fun App() {
     )
     MaterialTheme {
         Box(
-            Modifier.fillMaxSize().background(Color.White),
+            Modifier
+                .paint(
+                    painterResource(Res.drawable.bliss),
+                    contentScale = ContentScale.FillBounds,
+                )
+                .fillMaxSize(),
             contentAlignment = Alignment.Center,
         ) {
             Column(
@@ -41,7 +53,7 @@ fun App() {
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(
-                    text = "Habit Tracker",
+                    text = stringResource(Res.string.app_name),
                     style = MaterialTheme.typography.h1,
                 )
                 exercises.forEach {
